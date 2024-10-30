@@ -1,14 +1,34 @@
 package com.alura.screenmatch.modelos;
 
+import com.google.gson.annotations.SerializedName;
+
 // Clase base que representa un Título, como una película o serie
 public class Titulo implements Comparable<Titulo>{
     // Atributos de la clase Titulo
+
+    @SerializedName("Title")
+
     private String nombre;  // Nombre del título (película o serie)
+
+    @SerializedName("Year")
     private int fechaDeLanzamiento;  // Año de lanzamiento
+
     private boolean incluidoEnElPlan;  // Indica si está incluido en el plan de suscripción
+
     private double sumaDeLasEvaluaciones;  // Suma de todas las evaluaciones dadas
+
     private int totalDeEvaluaciones;  // Total de evaluaciones recibidas
+
     private int duracionEnMinutos;  // Duración en minutos del título
+
+    public Titulo(TituloOmdb miTituloOmdb) {
+        this.nombre = miTituloOmdb.title();
+        this.fechaDeLanzamiento = Integer.valueOf(miTituloOmdb.year());
+        this.duracionEnMinutos = Integer.valueOf(miTituloOmdb.runtime().substring(0,2));
+    }
+
+    public Titulo() {
+    }
 
     // Método getter para obtener el nombre del título
     public String getNombre() {
@@ -78,5 +98,12 @@ public class Titulo implements Comparable<Titulo>{
     @Override
     public int compareTo(Titulo otroTitulo) {
         return this.getNombre().compareTo(otroTitulo.getNombre());
+    }
+
+    @Override
+    public String toString() {
+        return "Titulo = " + nombre + '\'' +
+                ", Fecha de lanzamiento = " + fechaDeLanzamiento +
+                ", duracion = " + duracionEnMinutos;
     }
 }
