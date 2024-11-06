@@ -1,5 +1,6 @@
 package com.alura.screenmatch.modelos;
 
+import com.alura.screenmatch.excepcion.ErrorEnConversionDeDuracionException;
 import com.google.gson.annotations.SerializedName;
 
 // Clase base que representa un Título, como una película o serie
@@ -24,11 +25,15 @@ public class Titulo implements Comparable<Titulo>{
     public Titulo(TituloOmdb miTituloOmdb) {
         this.nombre = miTituloOmdb.title();
         this.fechaDeLanzamiento = Integer.valueOf(miTituloOmdb.year());
+        if (miTituloOmdb.runtime().contains("N/A")){
+            throw new ErrorEnConversionDeDuracionException("No pude convertir la duracion, porque contiene un N/A");
+        }
         this.duracionEnMinutos = Integer.valueOf(miTituloOmdb.runtime().substring(0,2));
     }
 
     public Titulo() {
     }
+
 
     // Método getter para obtener el nombre del título
     public String getNombre() {
@@ -106,4 +111,5 @@ public class Titulo implements Comparable<Titulo>{
                 ", Fecha de lanzamiento = " + fechaDeLanzamiento +
                 ", duracion = " + duracionEnMinutos;
     }
+    
 }
